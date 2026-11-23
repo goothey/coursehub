@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CourseHub | Learn Something New</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="bg-light">
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="container pb-5">
+    <section class="text-center py-5">
+        <h1 class="display-5 fw-bold">Learn something new, at your own pace</h1>
+        <p class="lead text-muted col-lg-8 mx-auto">
+            Explore courses in programming, design, business, and math. Filter by level, compare prices,
+            and find the right course for where you are right now.
+        </p>
+        <div class="d-flex justify-content-center gap-3 mt-4">
+            <a th:href="@{/courses}" class="btn btn-primary btn-lg">Browse Courses</a>
+            <a th:href="@{/courses/new}" class="btn btn-outline-primary btn-lg">Add a Course</a>
+        </div>
+    </section>
+
+    <section class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h2 class="h5 card-title">Four categories</h2>
+                    <p class="card-text text-muted">Programming, design, business, and math, with courses for every level.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h2 class="h5 card-title">Find what fits</h2>
+                    <p class="card-text text-muted">Filter by category and difficulty, then sort by title or price.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h2 class="h5 card-title">Add your own</h2>
+                    <p class="card-text text-muted">Share a course with the community using the Add a Course form.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

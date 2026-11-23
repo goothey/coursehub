@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Browse Courses | CourseHub</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="bg-light">
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<main class="container py-5">
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+        <h1 class="h3 mb-0">Browse Courses</h1>
+        <a th:href="@{/courses/new}" class="btn btn-primary">+ Add a Course</a>
+    </div>
+
+    <!-- Filter and sort form. GET so the filters appear in the URL and can be bookmarked. -->
+    <form th:action="@{/courses}" method="get" class="card card-body shadow-sm mb-4">
+        <div class="row g-3 align-items-end">
+            <div class="col-md-3">
+                <label for="category" class="form-label">Category</label>
+                <select id="category" name="category" class="form-select">
+                    <option value="">All categories</option>
+                    <option th:each="c : ${categories}" th:value="${c}" th:text="${c}"
+                            th:selected="${c == selectedCategory}"></option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="difficulty" class="form-label">Difficulty</label>
+                <select id="difficulty" name="difficulty" class="form-select">
+                    <option value="">All levels</option>
+                    <option th:each="d : ${difficulties}" th:value="${d}" th:text="${d}"
+                            th:selected="${d == selectedDifficulty}"></option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="sortBy" class="form-label">Sort by</label>
+                <select id="sortBy" name="sortBy" class="form-select">
+                    <option value="title" th:selected="${sortBy == 'title'}">Title</option>
+                    <option value="price" th:selected="${sortBy == 'price'}">Price</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="dir" class="form-label">Order</label>
+                <select id="dir" name="dir" class="form-select">
+                    <option value="asc" th:selected="${dir == 'asc'}">Ascending</option>
+                    <option value="desc" th:selected="${dir == 'desc'}">Descending</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-flex gap-2">
+                <button type="submit" class="btn btn-primary w-100">Apply</button>
+                <a th:href="@{/courses}" class="btn btn-outline-secondary">Reset</a>
+            </div>
+        </div>
+    </form>
+
+    <p class="text-muted" th:text="${page.totalElements} + ' course(s) found'">0 courses found</p>
+
+    <!-- Empty state -->
+    <div class="alert alert-info" th:if="${page.isEmpty()}">
+        No courses match these filters. Try choosing different options or
+        <a th:href="@{/courses}">reset the filters</a>.
+    </div>
+
+    <!-- Course cards -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" th:unless="${page.isEmpty()}">
+        <div class="col" th:each="course : ${page.content}">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h2 class="h5 card-title" th:text="${course.title}">Course title</h2>
+                    <p class="mb-2">
+                        <span class="badge bg-primary me-1" th:text="${course.category}">CATEGORY</span>
+                        <span class="badge bg-secondary" th:text="${course.difficulty}">DIFFICULTY</span>
+                    </p>
+                    <p class="card-text small text-muted mb-2" th:text="${course.durationHours} + ' hours'">0 hours</p>
+                    <p class="card-text fw-semibold" th:text="'$' + ${course.price}">$0.00</p>
+                </div>
+                <div class="card-footer bg-white border-0">
+                    <a th:href="@{/courses/{id}(id=${course.id})}" class="btn btn-sm btn-outline-primary">View details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination: only shown when there is more than one page -->
+    <nav class="mt-4" aria-label="Course pages" th:if="${page.totalPages > 1}">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${!page.hasPrevious()} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{/courses(page=${page.number - 1}, category=${selectedCategory}, difficulty=${selectedDifficulty}, sortBy=${sortBy}, dir=${dir})}">Previous</a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                th:classappend="${i == page.number} ? 'active'">
+                <a class="page-link"
+                   th:href="@{/courses(page=${i}, category=${selectedCategory}, difficulty=${selectedDifficulty}, sortBy=${sortBy}, dir=${dir})}"
+                   th:text="${i + 1}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${!page.hasNext()} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{/courses(page=${page.number + 1}, category=${selectedCategory}, difficulty=${selectedDifficulty}, sortBy=${sortBy}, dir=${dir})}">Next</a>
+            </li>
+        </ul>
+    </nav>
+</main>
+</body>
+</html>
