@@ -32,14 +32,11 @@ mvn test
 The validation tests in `CourseValidationTest` check that bad form input is rejected with clear messages, and that valid input is saved and redirected.
 
 ## Team contributions
+
 | Team member | Parts built |
 |---|---|
-| [Name 1] | [e.g. Course entity, repository, sample data] |
-| [Name 2] | [e.g. Add Course form and validation] |
-| [Name 3] | [e.g. Browse page with filters, sorting, and pagination] |
-| [Name 4] | [e.g. Home, About, FAQ pages and navbar] |
+| Karan Rana Magar | Deliverable 1: Course entity and repository, sample data, Add Course form and validation, Browse page with filters, sorting and pagination, Home, About and FAQ pages, navbar, validation tests, README |
 
-Replace the placeholders above with your team's names and the parts each person built. Commit history on GitHub should match this table.
 
 ## Project status
 Deliverable 1 (Front-End & Database Integration) is complete. Deliverable 2 (Security & User Management) and Deliverable 3 (Microservices, REST APIs & DevOps) are not yet started.
